@@ -1,0 +1,16 @@
+# Nim
+nimcache/
+*.exe
+*.dll
+*.dylib
+*.so
+*.o
+*.obj
+*.pdb
+*.pdb.d
+*.idb
+*.idb.d
+*.nims
+
+# AWS
+.aws-sam/
