@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  NimFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: handler.handler
+      Runtime: provided.al2
+      CodeUri: ../backend/lambda.zip
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          PARAM1: 'value1'
+      Events:
+        DataEndpoint:
+          Type: Api
+          Properties:
+            Path: /data
+            Method: post
+  NimBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: my-nim-bucket
+  NimTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: NimTable
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
