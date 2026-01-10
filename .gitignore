@@ -1,16 +1,24 @@
-# Nim
-nimcache/
-*.exe
-*.dll
-*.dylib
-*.so
-*.o
-*.obj
-*.pdb
-*.pdb.d
-*.idb
-*.idb.d
-*.nims
+# Build artifacts
+backend/handler
+backend/cli
+backend/*.o
+backend/*.exe
+backend/*.dll
+backend/*.so
+backend/lambda.zip
 
-# AWS
-.aws-sam/
+# Nim cache
+nimcache/
+**/nimcache/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# Local data
+local_storage/
+local_db/
+logs/
+
+# OS files
+.DS_Store

@@ -1,11 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Install Nim if not installed
-if ! [ -x "$(command -v nim)" ]; then
-  curl https://nim-lang.org/choosenim/init.sh -sSf | sh
-  export PATH=$HOME/.nimble/bin:$PATH
-fi
+ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
-# Build the Nim Lambda function
+"$ROOT_DIR/scripts/bootstrap_nim.sh"
+
+cd "$ROOT_DIR/backend"
+
 nim c -d:release --threads:on --out:handler handler.nim
-zip lambda.zip handler
+
+if command -v zip >/dev/null 2>&1; then
+  zip -j lambda.zip handler
+else
+  echo "zip not found; skipping lambda.zip creation"
+fi

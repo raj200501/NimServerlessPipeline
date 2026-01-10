@@ -1,13 +1,16 @@
 import unittest
 import json
+import os
 import handler
 
-suite "Test Lambda Handler":
+suite "Lambda Handler":
   test "Handler processes data correctly":
-    let event = %*{
-      "data": "sample data"
-    }
+    putEnv("NIM_PIPELINE_MODE", "local")
+    putEnv("NIM_PIPELINE_STORAGE_DIR", getTempDir() / "handler_storage")
+    putEnv("NIM_PIPELINE_DB_PATH", getTempDir() / "handler_db" / "records.jsonl")
+    let event = %*{"data": "sample data"}
     let context = %*{}
     let response = handler(event, context)
     check response["statusCode"].getInt == 200
-    check response["body"]["message"].getStr.contains("PROCESSED DATA")
+    let message = response["body"]["message"].getStr
+    check message.contains("Processed")
